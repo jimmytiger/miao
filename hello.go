@@ -8,6 +8,16 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	log.Println(r.URL.Path)
+	readCookie, err := r.Cookie("haha")
+	if err == nil && readCookie.Value != "" {
+		fmt.Fprintf(w, "Loged in")
+		log.Println("Loged in")
+	} else {
+		cookie := http.Cookie{Name: "haha", Value: "good", Path: "/"}
+		http.SetCookie(w, &cookie)
+
+	}
 	fmt.Fprintf(w, r.URL.Path)
 	fmt.Fprintf(w, "Hi, there, I love %s!", r.URL.Path[1:])
 }
